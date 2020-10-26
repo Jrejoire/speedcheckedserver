@@ -1,8 +1,17 @@
 var express = require('express');
 const cors = require("cors");
-const socketIo = require("socket.io");
+const socketIo = require("socket.io")(server, {
+    handlePreflightRequest: (req, res) => {
+        const headers = {
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Origin": "https://jrejoire.github.io",
+            "Access-Control-Allow-Credentials": true
+        };
+        res.writeHead(200, headers);
+        res.end();
+    }
+});
 var ss = require('socket.io-stream');
-var path = require('path');
 var fs = require('fs');
 
 require('dotenv').config();
@@ -26,7 +35,6 @@ app.use(cors(corsOptions));
 var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
 var io = socketIo.listen(server);
-io.origins('*:*');
 
 io.on("connection", function (socket) {
     // client has connected
