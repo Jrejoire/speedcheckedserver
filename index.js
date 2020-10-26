@@ -8,44 +8,14 @@ require('dotenv').config();
 const port = process.env.PORT || 5000;
 
 const app = express();
-
 app.use(express.json());
+app.use(cors());
 
-const whitelist = ["https://jrejoire.github.io", "https://jrejoire.github.io/*", "http://localhost:3000", "http://localhost:3000/*"];
-var corsOptions = {
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true)
-        } else {
-            callback(new Error('Not allowed by CORS'))
-        }
-    }
-}
-app.use(cors(corsOptions));
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
-    res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-    next();
-});
 var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
-var io = socketIo.listen(server, {log:false, origins:'*:*'});
-io.configure('production', function () {
-    io.enable('browser client minification');  // send minified client
-    io.enable('browser client etag'); // apply etag caching logic based on version number
-    io.enable('browser client gzip'); // the file
-    io.set('log level', 1);           // logging
-    io.set('transports', [            // all transports
-        'websocket'
-        , 'flashsocket'
-        , 'htmlfile'
-        , 'xhr-polling'
-        , 'jsonp-polling'
-    ]);
-    io.set('origins', 'https://jrejoire.github.io:*');
-});
+var io = socketIo.listen(server);
+
+io.set('origins', '*:*');
 io.on("connection", function (socket) {
     // client has connected
     console.log("Client connected");
