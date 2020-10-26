@@ -1,16 +1,6 @@
 var express = require('express');
 const cors = require("cors");
-const socketIo = require("socket.io")(server, {
-    handlePreflightRequest: (req, res) => {
-        const headers = {
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-            "Access-Control-Allow-Origin": "https://jrejoire.github.io",
-            "Access-Control-Allow-Credentials": true
-        };
-        res.writeHead(200, headers);
-        res.end();
-    }
-});
+const socketIo = require("socket.io");
 var ss = require('socket.io-stream');
 var fs = require('fs');
 
@@ -35,6 +25,8 @@ app.use(cors(corsOptions));
 var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
 var io = socketIo.listen(server);
+
+io.set( 'origins', 'https://jrejoire.github.io:*' );
 
 io.on("connection", function (socket) {
     // client has connected
