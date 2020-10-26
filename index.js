@@ -10,6 +10,8 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 app.use(express.json());
+var server = app.listen(port, () => console.log(`Listening to server ${port}`));
+
 const whitelist = ["https://jrejoire.github.io", "https://jrejoire.github.io/*", "http://localhost:3000", "http://localhost:3000/*"];
 var corsOptions = {
     origin: function (origin, callback) {
@@ -20,9 +22,7 @@ var corsOptions = {
         }
     }
 }
-app.use(cors(corsOptions));
-
-var server = app.listen(port, () => console.log(`Listening to server ${port}`));
+server.use(cors(corsOptions));
 
 var io = socketIo.listen(server);
 
