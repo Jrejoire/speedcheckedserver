@@ -26,7 +26,7 @@ var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
 var io = socketIo.listen(server);
 
-io.set( 'origins', 'https://jrejoire.github.io:*' );
+io.set('transports', ['websocket']);
 
 io.on("connection", function (socket) {
     // client has connected
