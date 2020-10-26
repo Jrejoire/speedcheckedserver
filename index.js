@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 var corsOptions = {
     origin: '*',
-    credentials: false
+    credentials: true
 };
 app.use(cors(corsOptions));
 
