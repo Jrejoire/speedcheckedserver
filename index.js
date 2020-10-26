@@ -15,7 +15,6 @@ var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
 var io = socketIo.listen(server);
 
-io.set('origins', '*:*');
 io.on("connection", function (socket) {
     // client has connected
     console.log("Client connected");
