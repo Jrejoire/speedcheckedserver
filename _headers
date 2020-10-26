@@ -1,3 +1,4 @@
 /*
 Access-Control-Allow-Origin: https://jrejoire.github.io
 Referrer-Policy: no-referrer
+Access-Control-Allow-Credentials: true
