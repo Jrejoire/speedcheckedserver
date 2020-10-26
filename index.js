@@ -10,7 +10,6 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 app.use(express.json());
-var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
 const whitelist = ["https://jrejoire.github.io", "https://jrejoire.github.io/*", "http://localhost:3000", "http://localhost:3000/*"];
 var corsOptions = {
@@ -22,12 +21,25 @@ var corsOptions = {
         }
     }
 }
-server.use(cors(corsOptions));
+app.use(cors(corsOptions));
+var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
 var io = socketIo.listen(server);
-
-io.set('transports', ['websocket']);
-
+io.configure('production', function () {
+    console.log("Server in production mode");
+    io.enable('browser client minification');  // send minified client
+    io.enable('browser client etag'); // apply etag caching logic based on version number
+    io.enable('browser client gzip'); // the file
+    io.set('log level', 1);           // logging
+    io.set('transports', [            // all transports
+        'websocket'
+        , 'flashsocket'
+        , 'htmlfile'
+        , 'xhr-polling'
+        , 'jsonp-polling'
+    ]);
+    io.set('origins', 'https://jrejoire.github.io:*');
+});
 io.on("connection", function (socket) {
     // client has connected
     console.log("Client connected");
