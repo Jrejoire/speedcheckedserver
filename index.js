@@ -26,6 +26,7 @@ app.use(cors(corsOptions));
 var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
 var io = socketIo.listen(server);
+io.origins('*:*');
 
 io.on("connection", function (socket) {
     // client has connected
