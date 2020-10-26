@@ -10,3 +10,4 @@
   for = "https://jrejoire.github.io"
     [headers.values]
     Access-Control-Allow-Origin = "https://jrejoire.github.io"
+    Access-Control-Allow-Credentials = "true"
