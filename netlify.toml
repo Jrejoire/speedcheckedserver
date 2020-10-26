@@ -6,8 +6,6 @@
   status = 200
 
 [[headers]]
-  # Define which paths this specific [[headers]] block will cover.
-  for = "https://jrejoire.github.io"
-    [headers.values]
-    Access-Control-Allow-Origin = "https://jrejoire.github.io"
-    Access-Control-Allow-Credentials = "true"
+for = "/*"
+[headers.values]
+Access-Control-Allow-Origin = "*"
