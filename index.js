@@ -9,7 +9,11 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+var corsOptions = {
+    origin: '*',
+    credentials: false
+};
+app.use(cors(corsOptions));
 
 var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
