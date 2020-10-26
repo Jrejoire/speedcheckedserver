@@ -22,11 +22,17 @@ var corsOptions = {
     }
 }
 app.use(cors(corsOptions));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+    next();
+});
 var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
-var io = socketIo.listen(server);
+var io = socketIo.listen(server, {log:false, origins:'*:*'});
 io.configure('production', function () {
-    console.log("Server in production mode");
     io.enable('browser client minification');  // send minified client
     io.enable('browser client etag'); // apply etag caching logic based on version number
     io.enable('browser client gzip'); // the file
