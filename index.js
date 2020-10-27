@@ -8,6 +8,7 @@ require('dotenv').config();
 const port = process.env.PORT || 5000;
 
 const app = express();
+app.use(express.json());
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "https://jrejoire.github.io");
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
@@ -15,7 +16,6 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Credentials", true);
     next();
 });
-app.use(express.json());
 var corsOptions = {
     origin: '*',
     credentials: true
@@ -25,7 +25,7 @@ app.use(cors(corsOptions));
 var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
 var io = require('socket.io').listen(server);
-
+io.origins(['https://jrejoire.github.io']);
 io.on("connection", function (socket) {
     // client has connected
     console.log("Client connected");
