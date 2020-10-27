@@ -14,10 +14,17 @@ var corsOptions = {
     credentials: true
 };
 app.use(cors(corsOptions));
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://jrejoire.github.io");
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Credentials", true);
+    next();
+});
 
 var server = app.listen(port, () => console.log(`Listening to server ${port}`));
 
-var io = socketIo.listen(server);
+var io = require('socket.io').listen(server);
 
 io.on("connection", function (socket) {
     // client has connected
