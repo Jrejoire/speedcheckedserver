@@ -26,7 +26,12 @@ var io = require('socket.io')(server, {
     res.end();
     }
 });
-io.origins('*:*');
+io.origins((origin, callback) => {
+  if (origin !== 'https://jrejoire.github.io') {
+      return callback('origin not allowed', false);
+  }
+  callback(null, true);
+});
 
 io.on("connection", function (socket) {
     // client has connected
