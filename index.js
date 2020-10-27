@@ -1,10 +1,22 @@
 var ss = require('socket.io-stream');
 var fs = require('fs');
+const cors = require('cors');
 
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
+const whitelist = ['http://localhost:3000', 'https://jrejoire.github.io'];
+const corsOptions = {
+  credentials: true, 
+  origin: (origin, callback) => {
+    if(whitelist.includes(origin))
+      return callback(null, true)
+
+      callback(new Error('Not allowed by CORS'));
+  }
+}
 var app = require('express')();
+app.use(cors(corsOptions));
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
