@@ -1,31 +1,13 @@
-var express = require('express');
-const cors = require("cors");
-const socketIo = require("socket.io");
 var ss = require('socket.io-stream');
 var fs = require('fs');
 
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
-const app = express();
-app.use(express.json());
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://jrejoire.github.io");
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Credentials", true);
-    next();
-});
-var corsOptions = {
-    origin: '*',
-    credentials: true
-};
-app.use(cors(corsOptions));
-
-var server = app.listen(port, () => console.log(`Listening to server ${port}`));
-
+var app = require('express')();
+var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-io.origins(['https://jrejoire.github.io']);
+
 io.on("connection", function (socket) {
     // client has connected
     console.log("Client connected");
@@ -58,6 +40,6 @@ io.on("connection", function (socket) {
     })
 });
 
-app.get('/', async (req, res) => {
-    res.send('App init');
+server.listen(port, () => {
+    console.log('Listening to port: ' + port);
 });
