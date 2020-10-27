@@ -26,6 +26,7 @@ var io = require('socket.io')(server, {
     res.end();
     }
 });
+io.origins('*:*');
 
 io.on("connection", function (socket) {
     // client has connected
