@@ -7,22 +7,13 @@ const port = process.env.PORT || 5000;
 
 
 var app = require('express')();
-app.options('*', cors({
-    origin: true,
-    methods: 'POST',
-    allowedHeaders: ['Content-Type'],
-    credentials: true,
-}));
 var server = require('http').createServer(app);
 var io = require('socket.io')(server, {
-    handlePreflightRequest: function (req, res) {
-        var headers = {
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            'Access-Control-Allow-Origin': "https://jrejoire.github.io",
-            'Access-Control-Allow-Credentials': true
-        };
-        res.writeHead(200, headers);
-        res.end();
+    cors: {
+        origin: "https://jrejoire.github.io",
+        methods: ["GET"],
+        allowedHeaders: ["Authorization"],
+        credentials: true
     }
 });
 
