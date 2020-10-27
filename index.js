@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000;
 
 const whitelist = ['http://localhost:3000', 'https://jrejoire.github.io'];
 const corsOptions = {
-  credentials: true, 
+  credentials: false, 
   origin: (origin, callback) => {
     if(whitelist.includes(origin))
       return callback(null, true)
