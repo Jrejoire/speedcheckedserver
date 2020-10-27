@@ -7,14 +7,16 @@ const port = process.env.PORT || 5000;
 
 
 var app = require('express')();
+app.options('*', cors({
+    origin: true,
+    methods: 'POST',
+    allowedHeaders: ['Content-Type'],
+    credentials: true,
+}));
+
 var server = require('http').createServer(app);
 var io = require('socket.io')(server, {
-    cors: {
-        origin: "https://jrejoire.github.io",
-        methods: ["GET"],
-        allowedHeaders: ["Authorization"],
-        credentials: true
-    }
+    handlePreflightRequest: false
 });
 
 io.on("connection", function (socket) {
