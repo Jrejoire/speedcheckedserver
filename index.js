@@ -15,7 +15,15 @@ app.options('*', cors({
 }));
 var server = require('http').createServer(app);
 var io = require('socket.io')(server, {
-    handlePreflightRequest: false
+    handlePreflightRequest: function (req, res) {
+        var headers = {
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            'Access-Control-Allow-Origin': "https://jrejoire.github.io",
+            'Access-Control-Allow-Credentials': true
+        };
+        res.writeHead(200, headers);
+        res.end();
+    }
 });
 
 io.on("connection", function (socket) {
